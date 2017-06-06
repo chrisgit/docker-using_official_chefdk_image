@@ -44,8 +44,8 @@ alias chef='docker run -it --rm -v $(pwd):/chef-repo chef/chefdk'
 ````
 
 This alias will allow you to run the ChefDK container with
-* alias chef
-* map a drive (-v parameter) to your repo
+* alias of chef for running docker container
+* map a drive (-v parameter) to your repo (or cookbook)
 * remove the container when your command has finished executing
 
 Use ChefDK from the container, examples below
@@ -66,6 +66,20 @@ Run Foodcritic against the demo cookbook
 
 ````
 chef foodcritic . -f any /chef-repo
+````
+
+For more complicated scenario's you can run multiple bash commands together, including installing gems
+
+````
+chef /bin/bash -c "cd chef-repo/cookbooks/test_cookbook;rspec --format documentation --out rspec.txt"
+````
+
+````
+chef /bin/bash -c "gem install rubocop-checkstyle_formatter;cd /chef-repo/cookbooks/test_cookbook;rubocop -r cookstyle --fail-level E --require rubocop/formatter/checkstyle_formatter --format RuboCop::Formatter::CheckstyleFormatter --out checkstyle.xml"
+````
+
+````
+chef /bin/bash -c "cd chef-repo/cookbooks/test_cookbook;kitchen test"
 ````
 
 ### Test Kitchen run
